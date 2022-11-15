@@ -96,6 +96,35 @@ function App() {
     await deleteOneItem(item);
     fetchCart();
   }
+  
+  const decreaseQuantity = async(id, quant) => {
+    try {
+      await axios.put("/api/cart/" + id + "/" + quant);
+      //updateCart();
+      //console.log(cart);
+    } catch(error) {
+      setError("error decreasing quantity: " + error);
+    }
+  }
+  
+  const putOneBack = async(id, quant) => {
+    await decreaseQuantity(id, quant);
+    fetchCart();
+  }
+  
+  const increaseQuantity = async(id, quant) => {
+    try {
+      await axios.put("/api/cart/" + id + "/" + quant);
+      //console.log(cart);
+    } catch(error) {
+      setError("error increasing quantity: " + error);
+    }
+  }
+  
+  const addAnother = async(id, quant) => {
+    await increaseQuantity(id, quant);
+    fetchCart();
+  }
 
 
   // render results
@@ -133,9 +162,14 @@ function App() {
         <div key={item.id} className="item">
           <div className="">
             <p>{item.name}, {item.quantity}</p>
-            <p><button onClick={e => deleteItem(item)}>Delete</button></p>
+            <p><button onClick={e => putOneBack(item.id, (item.quantity - 1))}>-</button>
+            <button onClick={e => addAnother(item.id, (item.quantity + 1))}>+</button>
+            <button onClick={e => deleteItem(item)}>Delete</button></p>
           </div>
         </div>))}
+      <div className="githubRepo">
+      <a href="https://github.com/osession/Creative4">Olivia's github repo</a>
+      </div>
     </div>
   );
 }

@@ -7,6 +7,8 @@ app.use(bodyParser.urlencoded({
   extended: false
 }));
 
+let cart = [];
+
 const mongoose = require('mongoose');
 
 // connect to the database
@@ -86,6 +88,7 @@ const Cart = mongoose.model('Cart', cartSchema);
 app.get('/api/cart', async (req, res) => {
   try {
     let items = await Cart.find();
+    cart = items;
     res.send({items: items});
   } catch (error) {
     console.log(error);
@@ -94,10 +97,21 @@ app.get('/api/cart', async (req, res) => {
 });
 
 app.post('/api/cart/:name', async (req, res) => {
-  //if (found) {
-    ///check if it is already in cart, if so, update quantity by 1;
-  //}
-  //else {
+  //let name = req.params.name;
+  let item = cart.find((item) => item.name == req.params.name);
+  if (item != undefined) {
+    console.log(item.name);
+    item.quantity = item.quantity + 1;
+    console.log(item.quantity);
+    try {
+      await item.save();
+      res.send({item:item});
+    } catch (error) {
+      console.log(error);
+      res.sendStatus(500);
+    }
+  }
+  else {
     const item = new Cart({
       name: req.params.name,
       quantity: 1
@@ -109,7 +123,7 @@ app.post('/api/cart/:name', async (req, res) => {
       console.log(error);
       res.sendStatus(500);
     }
-  //}
+  }
 });
 
 app.delete('/api/cart/:id', async (req, res) => {
@@ -122,6 +136,18 @@ app.delete('/api/cart/:id', async (req, res) => {
     console.log(error);
     res.sendStatus(500);
   }
+});
+
+app.put('/api/cart/:id/:quantity', (req, res) => {
+    /*const match = cart.filter(item => item.name == name);
+    try {
+      await match.save();
+      res.send({item:match});
+    } catch (error) {
+      console.log(error);
+      res.sendStatus(500);
+    }
+  }*/
 });
 
 app.listen(3000, () => console.log('Server listening on port 3000!'));
