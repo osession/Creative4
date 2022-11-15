@@ -131,6 +131,7 @@ function App() {
   return (
     <div className="App">
       {error}
+      <div className="create">
       <h1>Create a Product</h1>
       <form onSubmit={addProduct}>
         <div>
@@ -147,16 +148,20 @@ function App() {
         </div>
         <input type="submit" value="Submit" />
       </form>
+      </div>
+      <div className="products">
       <h1>Products</h1>
       {products.map( product => (
         <div key={product.id} className="ticket">
           <div className="problem">
             <p>{product.name}, {product.price}</p>
-            <p><button onClick={e => addOneItem(product.name)}>Add to Cart</button></p>
+            <p><button onClick={e => addOneItem(product.name)}>Add to Cart</button>
+            <button onClick={e => deleteProduct(product)}>Delete</button></p>
           </div>
-          <button onClick={e => deleteProduct(product)}>Delete</button>
         </div>
       ))}
+      </div>
+      <div className="cart">
       <h1>Cart</h1>
       {cart.map( item => (
         <div key={item.id} className="item">
@@ -167,6 +172,7 @@ function App() {
             <button onClick={e => deleteItem(item)}>Delete</button></p>
           </div>
         </div>))}
+      </div>
       <div className="githubRepo">
       <a href="https://github.com/osession/Creative4">Olivia's github repo</a>
       </div>

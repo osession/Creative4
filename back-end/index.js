@@ -97,7 +97,6 @@ app.get('/api/cart', async (req, res) => {
 });
 
 app.post('/api/cart/:name', async (req, res) => {
-  //let name = req.params.name;
   let item = cart.find((item) => item.name == req.params.name);
   if (item != undefined) {
     console.log(item.name);
@@ -138,16 +137,31 @@ app.delete('/api/cart/:id', async (req, res) => {
   }
 });
 
-app.put('/api/cart/:id/:quantity', (req, res) => {
-    /*const match = cart.filter(item => item.name == name);
-    try {
-      await match.save();
-      res.send({item:match});
-    } catch (error) {
-      console.log(error);
-      res.sendStatus(500);
+app.put('/api/cart/:id/:quantity', async (req, res) => {
+  let item = cart.find((item) => item.id == req.params.id);
+  if (item != undefined) {
+    console.log(item.name);
+    item.quantity = req.params.quantity;
+    if (item.quantity == 0) {
+      try {
+        await Cart.deleteOne({
+          _id: req.params.id
+        });
+        res.sendStatus(200);
+      } catch (error) {
+        console.log(error);
+        res.sendStatus(500);
+      }
+    } else {
+      try {
+        await item.save();
+        res.send({item:item});
+      } catch (error) {
+        console.log(error);
+        res.sendStatus(500);
+      }
     }
-  }*/
+  }
 });
 
 app.listen(3000, () => console.log('Server listening on port 3000!'));

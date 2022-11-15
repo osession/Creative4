@@ -1,5 +1,21 @@
 .App {
   text-align: center;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  margin: 10px;
+}
+
+.create {
+  padding: 20px;
+}
+
+.product {
+  padding: 20px;
+}
+
+.cart {
+  padding: 20px;
 }
 
 .App-logo {
