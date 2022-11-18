@@ -143,7 +143,8 @@ function App() {
       <div className="header">
         <h1>Sell your used clothes!</h1>
         <h3>All you have to do is post the name, asking price, color, and a description of the design, if any.</h3>
-        <p>Anyone can purchase your clothes! When they add to their cart, they can view your contact information to message you.</p>
+        <p>Anyone can purchase your clothes! When they add to their cart, 
+        they can view your contact information to message you about exchange of the item and payment.</p>
       </div>
       <div className="columns">
       <div className="create">
@@ -206,7 +207,7 @@ function App() {
       {cart.map( item => (
         <div key={item.id} className="item">
           <div className="">
-            <p>{item.name}, {item.quantity}</p>
+            <p>{item.quantity} {item.name}: CONTACT {item.contact}</p>
             <p><button onClick={e => putOneBack(item.id, (item.quantity - 1))}>-</button>
             <button onClick={e => addAnother(item.id, (item.quantity + 1))}>+</button>
             <button onClick={e => deleteItem(item)}>Delete</button></p>

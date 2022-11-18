@@ -16,7 +16,8 @@ h2 {
 .header {
   background-color: #efe9f5;
   color: 	#381f33;
-  padding: 10px;
+  padding-top: 4px;
+  padding-bottom: 2px;
 }
 
 .columns {

@@ -8,6 +8,7 @@ app.use(bodyParser.urlencoded({
 }));
 
 let cart = [];
+let myProducts = [];
 
 const mongoose = require('mongoose');
 
@@ -40,6 +41,7 @@ const Product = mongoose.model('Product', productSchema);
 app.get('/api/products', async (req, res) => {
   try {
     let products = await Product.find();
+    myProducts = products;
     res.send({products: products});
   } catch (error) {
     console.log(error);
@@ -79,7 +81,8 @@ app.delete('/api/products/:id', async (req, res) => {
 
 const cartSchema = new mongoose.Schema({
   name: String,
-  quantity: Number
+  quantity: Number,
+  contact: String
 });
 
 cartSchema.virtual('id')
@@ -106,6 +109,7 @@ app.get('/api/cart', async (req, res) => {
 
 app.post('/api/cart/:name', async (req, res) => {
   let item = cart.find((item) => item.name == req.params.name);
+  let match = myProducts.find((match) => match.name == req.params.name);
   if (item != undefined) {
     console.log(item.name);
     item.quantity = item.quantity + 1;
@@ -121,7 +125,8 @@ app.post('/api/cart/:name', async (req, res) => {
   else {
     const item = new Cart({
       name: req.params.name,
-      quantity: 1
+      quantity: 1, 
+      contact: match.contact
     });
     try {
       await item.save();
