@@ -20,7 +20,7 @@ mongoose.connect('mongodb://localhost:27017/test', {
 
 const productSchema = new mongoose.Schema({
   name: String,
-  price: String,
+  price: Number,
   color: String, 
   size: String,
   describe: String, 
@@ -118,6 +118,7 @@ app.post('/api/cart/:name', async (req, res) => {
     let newQuant = item.quantity + 1;
     if (newQuant <= match.quantity) {
     item.quantity = item.quantity + 1;
+    item.total = item.total + match.price;
     //console.log(item.quantity);
     try {
       await item.save();
@@ -132,8 +133,8 @@ app.post('/api/cart/:name', async (req, res) => {
     const item = new Cart({
       name: req.params.name,
       quantity: 1, 
-      contact: match.contact
-      //total: match.price
+      contact: match.contact,
+      total: match.price
     });
     try {
       await item.save();
@@ -181,6 +182,7 @@ app.put('/api/cart/:id/:quantity', async (req, res) => {
     }
     else {
       item.quantity = newQuant;
+      item.total = match.price * newQuant;
       //item.total = item.quantity * item.price
       try {
         await item.save();

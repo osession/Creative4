@@ -8,7 +8,7 @@ function App() {
   const [products, setProducts] = useState([]);
   const [error, setError] = useState("");
   const [name, setName] = useState("");
-  const [price, setPrice] = useState("");
+  const [price, setPrice] = useState();
   const [cart, setCart] = useState([]);
   const [color, setColor] = useState("");
   const [size, setSize] = useState("");
@@ -50,7 +50,7 @@ function App() {
     await createProduct();
     fetchProducts();
     setName("");
-    setPrice("");
+    setPrice();
     setColor("");
     setSize("");
     setDescribe("");
@@ -161,7 +161,7 @@ function App() {
         <div>
           <label>
             Price:
-            <input type="text" value={price} onChange={e=>setPrice(e.target.value)} />
+            <input type="number" value={price} onChange={e=>setPrice(e.target.value)} />
           </label>
         </div>
         <div>
@@ -215,7 +215,7 @@ function App() {
       {cart.map( item => (
         <div key={item.id} className="item">
           <div className="">
-            <p>{item.quantity} {item.name}</p>
+            <p>{item.quantity} {item.name}, total: ${item.total}</p>
             <p>CONTACT {item.contact}</p>
             <p><button onClick={e => putOneBack(item.id, (item.quantity - 1))}>-</button>
             <button onClick={e => addAnother(item.id, (item.quantity + 1))}>+</button>
