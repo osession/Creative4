@@ -202,8 +202,8 @@ function App() {
       {products.map( product => (
         <div key={product.id} className="ticket">
           <div className="problem">
-            <p>{product.color } {product.describe} {product.name}, size {product.size}: {product.price}</p>
-            <p>{product.quantity}</p>
+            <p>{product.color } {product.describe} {product.name}, size {product.size}: ${product.price}</p>
+            <p>{product.quantity} available</p>
             <p><button onClick={e => addOneItem(product.name)}>Add to Cart</button>
             <button onClick={e => deleteProduct(product)}>Delete</button></p>
           </div>
@@ -215,7 +215,8 @@ function App() {
       {cart.map( item => (
         <div key={item.id} className="item">
           <div className="">
-            <p>{item.quantity} {item.name}: CONTACT {item.contact}</p>
+            <p>{item.quantity} {item.name}</p>
+            <p>CONTACT {item.contact}</p>
             <p><button onClick={e => putOneBack(item.id, (item.quantity - 1))}>-</button>
             <button onClick={e => addAnother(item.id, (item.quantity + 1))}>+</button>
             <button onClick={e => deleteItem(item)}>Delete</button></p>

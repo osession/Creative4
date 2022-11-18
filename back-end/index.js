@@ -115,6 +115,8 @@ app.post('/api/cart/:name', async (req, res) => {
   let match = myProducts.find((match) => match.name == req.params.name);
   if (item != undefined) {
     //console.log(item.name);
+    let newQuant = item.quantity + 1;
+    if (newQuant <= match.quantity) {
     item.quantity = item.quantity + 1;
     //console.log(item.quantity);
     try {
@@ -123,6 +125,7 @@ app.post('/api/cart/:name', async (req, res) => {
     } catch (error) {
       console.log(error);
       res.sendStatus(500);
+    }
     }
   }
   else {
