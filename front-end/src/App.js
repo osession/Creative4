@@ -8,13 +8,13 @@ function App() {
   const [products, setProducts] = useState([]);
   const [error, setError] = useState("");
   const [name, setName] = useState("");
-  const [price, setPrice] = useState();
+  const [price, setPrice] = useState(0);
   const [cart, setCart] = useState([]);
   const [color, setColor] = useState("");
   const [size, setSize] = useState("");
   const [describe, setDescribe] = useState("");
   const [contact, setContact] = useState("");
-  const [quantity, setQuantity] = useState();
+  const [quantity, setQuantity] = useState(0);
   
   const fetchProducts = async() => {
     try {      
@@ -48,13 +48,13 @@ function App() {
   const addProduct = async(e) => {
     e.preventDefault();
     await createProduct();
-    fetchProducts();
+    fetchProducts(0);
     setName("");
     setPrice();
     setColor("");
     setSize("");
     setDescribe("");
-    setQuantity();
+    setQuantity(0);
     setContact("");
   }
 
@@ -154,7 +154,7 @@ function App() {
       <form onSubmit={addProduct}>
         <div>
           <label>
-            Name:
+            Name of Item:
             <input type="text" value={name} onChange={e => setName(e.target.value)} />
           </label>
         </div>
