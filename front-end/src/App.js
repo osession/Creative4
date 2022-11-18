@@ -14,6 +14,7 @@ function App() {
   const [size, setSize] = useState("");
   const [describe, setDescribe] = useState("");
   const [contact, setContact] = useState("");
+  const [quantity, setQuantity] = useState();
   
   const fetchProducts = async() => {
     try {      
@@ -26,7 +27,7 @@ function App() {
   }
   const createProduct = async() => {
     try {
-      await axios.post("/api/products", {name: name, price: price, color: color, size: size, describe: describe, contact:contact});
+      await axios.post("/api/products", {name: name, price: price, color: color, size: size, describe: describe, quantity: quantity, contact:contact});
     } catch(error) {
       setError("error adding a product: " + error);
     }
@@ -53,6 +54,7 @@ function App() {
     setColor("");
     setSize("");
     setDescribe("");
+    setQuantity();
     setContact("");
   }
 
@@ -182,6 +184,12 @@ function App() {
         </div>
         <div>
           <label>
+            Quantity:
+            <input type="number" value={quantity} onChange={e=>setQuantity(e.target.value)} />
+          </label>
+        </div>
+        <div>
+          <label>
             Contact Info:
             <input type="text" value={contact} onChange={e=>setContact(e.target.value)} />
           </label>
@@ -195,7 +203,7 @@ function App() {
         <div key={product.id} className="ticket">
           <div className="problem">
             <p>{product.color } {product.describe} {product.name}, size {product.size}: {product.price}</p>
-            <p>{product.contact}</p>
+            <p>{product.quantity}</p>
             <p><button onClick={e => addOneItem(product.name)}>Add to Cart</button>
             <button onClick={e => deleteProduct(product)}>Delete</button></p>
           </div>

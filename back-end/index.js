@@ -24,6 +24,7 @@ const productSchema = new mongoose.Schema({
   color: String, 
   size: String,
   describe: String, 
+  quantity: Number,
   contact: String
 });
 
@@ -56,6 +57,7 @@ app.post('/api/products', async (req, res) => {
     color: req.body.color,
     size: req.body.size,
     describe: req.body.describe,
+    quantity: req.body.quantity,
     contact: req.body.contact
   });
   try {
@@ -82,7 +84,8 @@ app.delete('/api/products/:id', async (req, res) => {
 const cartSchema = new mongoose.Schema({
   name: String,
   quantity: Number,
-  contact: String
+  contact: String, 
+  total: Number
 });
 
 cartSchema.virtual('id')
@@ -111,9 +114,9 @@ app.post('/api/cart/:name', async (req, res) => {
   let item = cart.find((item) => item.name == req.params.name);
   let match = myProducts.find((match) => match.name == req.params.name);
   if (item != undefined) {
-    console.log(item.name);
+    //console.log(item.name);
     item.quantity = item.quantity + 1;
-    console.log(item.quantity);
+    //console.log(item.quantity);
     try {
       await item.save();
       res.send({item:item});
@@ -127,6 +130,7 @@ app.post('/api/cart/:name', async (req, res) => {
       name: req.params.name,
       quantity: 1, 
       contact: match.contact
+      //total: match.price
     });
     try {
       await item.save();
@@ -151,11 +155,14 @@ app.delete('/api/cart/:id', async (req, res) => {
 });
 
 app.put('/api/cart/:id/:quantity', async (req, res) => {
+  console.log(req.params);
   let item = cart.find((item) => item.id == req.params.id);
+  //console.log(match.data.items);
+  let newQuant = req.params.quantity;
   if (item != undefined) {
-    console.log(item.name);
-    item.quantity = req.params.quantity;
-    if (item.quantity == 0) {
+    //console.log(item.name);
+    let match = myProducts.find((match) => match.name == item.name);
+    if (newQuant == 0) {
       try {
         await Cart.deleteOne({
           _id: req.params.id
@@ -165,7 +172,13 @@ app.put('/api/cart/:id/:quantity', async (req, res) => {
         console.log(error);
         res.sendStatus(500);
       }
-    } else {
+    } 
+    else if (newQuant > match.quantity) {
+      console.log("Quantity exceeds availabiility");
+    }
+    else {
+      item.quantity = newQuant;
+      //item.total = item.quantity * item.price
       try {
         await item.save();
         res.send({item:item});
