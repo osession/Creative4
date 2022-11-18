@@ -20,6 +20,10 @@ mongoose.connect('mongodb://localhost:27017/test', {
 const productSchema = new mongoose.Schema({
   name: String,
   price: String,
+  color: String, 
+  size: String,
+  describe: String, 
+  contact: String
 });
 
 productSchema.virtual('id')
@@ -46,7 +50,11 @@ app.get('/api/products', async (req, res) => {
 app.post('/api/products', async (req, res) => {
     const product = new Product({
     name: req.body.name,
-    price: req.body.price
+    price: req.body.price,
+    color: req.body.color,
+    size: req.body.size,
+    describe: req.body.describe,
+    contact: req.body.contact
   });
   try {
     await product.save();
@@ -71,7 +79,7 @@ app.delete('/api/products/:id', async (req, res) => {
 
 const cartSchema = new mongoose.Schema({
   name: String,
-  quantity: Number,
+  quantity: Number
 });
 
 cartSchema.virtual('id')

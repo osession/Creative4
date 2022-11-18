@@ -1,5 +1,25 @@
 .App {
   text-align: center;
+  font-family: Geneva;
+}
+
+h1 {
+  font-family: Brush Script MT;
+  font-size: 50px;
+  line-height: 0px;
+}
+
+h2 {
+  color: #381f33;
+}
+
+.header {
+  background-color: #efe9f5;
+  color: 	#381f33;
+  padding: 10px;
+}
+
+.columns {
   display: flex;
   flex-direction: row;
   justify-content: center;
@@ -8,14 +28,49 @@
 
 .create {
   padding: 20px;
+  border: solid;
+  border-color: #f7f7f7;
+  border-radius: 4px;
+  border-width: 2px;
+  margin-right: 20px;
+  text-align: left;
+  box-shadow: 5px 5px 10px 2px #f7f7f7;  
+  width: 27%;
 }
 
-.product {
+.myImage {
+  object-fit: cover;
+  overflow: hidden;
+  height: 300px;
+}
+
+.products {
   padding: 20px;
+  text-align: left;
+  border: solid;
+  border-color: #f7f7f7;
+  border-radius: 4px;
+  border-width: 2px;
+  box-shadow: 5px 5px 10px 2px #f7f7f7;  
+  width: 27%;
 }
 
 .cart {
   padding: 20px;
+  text-align: left;
+  border: solid;
+  border-color: #f7f7f7;
+  border-radius: 4px;
+  border-width: 2px;
+  margin-left: 20px;
+  box-shadow: 5px 5px 10px 2px #f7f7f7;  
+  width: 27%;
+}
+
+.githubRepo {
+  background-color: #efe9f5;
+  padding-top: 10px;
+  padding-bottom: 10px;
 }
 
 .App-logo {

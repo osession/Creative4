@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import myImage from './clothing.png';
 import axios from 'axios';
 import './App.css';
 
@@ -9,7 +10,11 @@ function App() {
   const [name, setName] = useState("");
   const [price, setPrice] = useState("");
   const [cart, setCart] = useState([]);
-
+  const [color, setColor] = useState("");
+  const [size, setSize] = useState("");
+  const [describe, setDescribe] = useState("");
+  const [contact, setContact] = useState("");
+  
   const fetchProducts = async() => {
     try {      
       const response = await axios.get("/api/products");
@@ -21,7 +26,7 @@ function App() {
   }
   const createProduct = async() => {
     try {
-      await axios.post("/api/products", {name: name, price: price});
+      await axios.post("/api/products", {name: name, price: price, color: color, size: size, describe: describe, contact:contact});
     } catch(error) {
       setError("error adding a product: " + error);
     }
@@ -45,6 +50,10 @@ function App() {
     fetchProducts();
     setName("");
     setPrice("");
+    setColor("");
+    setSize("");
+    setDescribe("");
+    setContact("");
   }
 
   const deleteProduct = async(product) => {
@@ -131,8 +140,14 @@ function App() {
   return (
     <div className="App">
       {error}
+      <div className="header">
+        <h1>Sell your used clothes!</h1>
+        <h3>All you have to do is post the name, asking price, color, and a description of the design, if any.</h3>
+        <p>Anyone can purchase your clothes! When they add to their cart, they can view your contact information to message you.</p>
+      </div>
+      <div className="columns">
       <div className="create">
-      <h1>Create a Product</h1>
+      <h2>Create a Product</h2>
       <form onSubmit={addProduct}>
         <div>
           <label>
@@ -143,18 +158,43 @@ function App() {
         <div>
           <label>
             Price:
-            <textarea value={price} onChange={e=>setPrice(e.target.value)}></textarea>
+            <input type="text" value={price} onChange={e=>setPrice(e.target.value)} />
+          </label>
+        </div>
+        <div>
+          <label>
+            Color:
+            <input type="text" value={color} onChange={e=>setColor(e.target.value)} />
+          </label>
+        </div>
+        <div>
+          <label>
+            Size:
+            <input type="text" value={size} onChange={e=>setSize(e.target.value)} />
+          </label>
+        </div>
+        <div>
+          <label>
+            Description:
+            <input type="text" value={describe} onChange={e=>setDescribe(e.target.value)} />
+          </label>
+        </div>
+        <div>
+          <label>
+            Contact Info:
+            <input type="text" value={contact} onChange={e=>setContact(e.target.value)} />
           </label>
         </div>
         <input type="submit" value="Submit" />
       </form>
       </div>
       <div className="products">
-      <h1>Products</h1>
+      <h2>Products</h2>
       {products.map( product => (
         <div key={product.id} className="ticket">
           <div className="problem">
-            <p>{product.name}, {product.price}</p>
+            <p>{product.color } {product.describe} {product.name}, size {product.size}: {product.price}</p>
+            <p>{product.contact}</p>
             <p><button onClick={e => addOneItem(product.name)}>Add to Cart</button>
             <button onClick={e => deleteProduct(product)}>Delete</button></p>
           </div>
@@ -162,7 +202,7 @@ function App() {
       ))}
       </div>
       <div className="cart">
-      <h1>Cart</h1>
+      <h2>Cart</h2>
       {cart.map( item => (
         <div key={item.id} className="item">
           <div className="">
@@ -173,6 +213,10 @@ function App() {
           </div>
         </div>))}
       </div>
+      </div>
+      <div className="myImage">
+        <img src={myImage} alt="clothes rack" />
+      </div>
       <div className="githubRepo">
       <a href="https://github.com/osession/Creative4">Olivia's github repo</a>
       </div>
@@ -182,3 +226,6 @@ function App() {
 
 export default App;
 
+      // <div className="picture">
+      //   <img src="clothes.jpg">clothing rack</img>
+      // </div>
